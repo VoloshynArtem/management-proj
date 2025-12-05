@@ -1,0 +1,45 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="simpleRoute.MainWindow"
+        Title="simpleRoute">
+ 
+  <Window.Styles>
+    <Style Selector="Button">
+      <Setter Property="HorizontalAlignment" Value="Stretch"/>
+      <Setter Property="VerticalAlignment" Value="Stretch"/>
+      <Setter Property="HorizontalContentAlignment" Value="Center"/>
+      <Setter Property="VerticalContentAlignment" Value="Center"/>
+      <Setter Property="FontSize" Value="24"/>
+      <Setter Property="Background" Value="Black"/>
+
+      <!-- <Setter Property="" Value=""/> -->
+
+    </Style> 
+  </Window.Styles>
+
+  <Grid Name="ContentGrid" RowDefinitions="*,100">
+    <ContentPresenter Name="Con" /> 
+
+    <Grid ColumnDefinitions="*,*,*,*" Grid.Row="1"> <!-- navigation buttons here -->
+        <Button Tag="0" Content="Tab1" Grid.Column="0" Click="ClickHandler"/>
+        <Button Tag="1" Content="Tab2" Grid.Column="1" Click="ClickHandler"/>
+      <Button Tag="2" Content="Tab3" Grid.Column="2" Click="ClickHandler">
+        <Image  Width="64" Height="64" Source="/assets/reels.png"/>       <!-- dont forget to add <ItemGroup><AvaloniaResource Include="assets\**\*" /></ItemGroup> to csproj file --> 
+      </Button>
+
+
+      <Button Tag="3" Grid.Column="3" Click="ClickHandler">
+          <Image Width="64" Height="64" 
+            asyncImageLoader:ImageLoader.Source="https://icons.veryicon.com/png/Application/iOS7%20Style%20Metro%20UI/MetroUI%20Folder%20OS%20Security%20Denied.png" 
+             /> <!-- pull  from web asyncronously -->
+        </Button>
+
+      
+    </Grid>
+
+  </Grid>
+</Window>
