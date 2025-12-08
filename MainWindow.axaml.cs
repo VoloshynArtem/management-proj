@@ -8,7 +8,8 @@ namespace managementProj;
 
 public partial class MainWindow : Window
 {
-  private UserControl[] Panels = [new simplePanel("kontinent", "Kontinentbezeichnung"), new Panel2(), new simplePanel("tierart", "TierartenBezeichnung"), new Panel4(), new Panel5()];
+  // private UserControl[] Panels = [new simplePanel("kontinent", new String[]{"Kontinentbezeichnung"}), new simplePanel("gehege", new String[]{"gehegeBezeichnung"}, new String[,]{{"kontinent", ""}}), new simplePanel("tierart", new St"TierartenBezeichnung"), new Panel4(), new Panel5()];
+  private UserControl[] Panels = [new simplePanel("kontinent", new String[]{"Kontinentbezeichnung"})];
 
     public MainWindow()
     {

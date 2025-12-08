@@ -2,9 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="managementProj.simplePanel">
   <StackPanel>
-    <StackPanel Margin="20,0,0,50">
-      <TextBlock Margin="0 5" x:Name="Heading" ></TextBlock>
-      <TextBox x:Name="Bez" Text="" AcceptsReturn="True" TextWrapping="Wrap"/>
+    <StackPanel x:Name="options" Margin="20,0,0,50">
     </StackPanel>
       
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
