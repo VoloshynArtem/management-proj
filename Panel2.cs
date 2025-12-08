@@ -1,5 +1,5 @@
 using Avalonia.Controls;
-namespace simpleRoute;
+namespace managementProj;
 
 public partial class Panel2 : UserControl{
   public Panel2(){

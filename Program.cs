@@ -1,7 +1,7 @@
 ﻿using Avalonia;
 using System;
 
-namespace simpleRoute;
+namespace managementProj;
 
 class Program
 {

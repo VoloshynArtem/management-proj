@@ -1,6 +1,6 @@
 <UserControl xmlns="https://github.com/avaloniaui" 
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="simpleRoute.Panel2">
+             x:Class="managementProj.Panel2">
   <StackPanel>
     <Button Content="Button 4321" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />
     <Button Content="Button 321" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" />

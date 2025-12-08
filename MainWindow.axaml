@@ -4,8 +4,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="simpleRoute.MainWindow"
-        Title="simpleRoute">
+        x:Class="managementProj.MainWindow"
+        Title="managementProj">
  
   <Window.Styles>
     <Style Selector="Button">
@@ -24,21 +24,13 @@
   <Grid Name="ContentGrid" RowDefinitions="*,100">
     <ContentPresenter Name="Con" /> 
 
-    <Grid ColumnDefinitions="*,*,*,*" Grid.Row="1"> <!-- navigation buttons here -->
-        <Button Tag="0" Content="Tab1" Grid.Column="0" Click="ClickHandler"/>
-        <Button Tag="1" Content="Tab2" Grid.Column="1" Click="ClickHandler"/>
-      <Button Tag="2" Content="Tab3" Grid.Column="2" Click="ClickHandler">
-        <Image  Width="64" Height="64" Source="/assets/reels.png"/>       <!-- dont forget to add <ItemGroup><AvaloniaResource Include="assets\**\*" /></ItemGroup> to csproj file --> 
-      </Button>
+    <Grid ColumnDefinitions="*,*,*,*,*" Grid.Row="1"> <!-- navigation buttons here -->
+        <Button Tag="0" Content="Kontinent" Grid.Column="0" Click="ClickHandler"/>
+        <Button Tag="1" Content="Gehege" Grid.Column="1" Click="ClickHandler"/>
+        <Button Tag="2" Content="Tierarten" Grid.Column="2" Click="ClickHandler"/>
+        <Button Tag="3" Content="Tiere" Grid.Column="3" Click="ClickHandler"/>
+        <Button Tag="5" Content="Übersicht" Grid.Column="4" Click="ClickHandler"/>
 
-
-      <Button Tag="3" Grid.Column="3" Click="ClickHandler">
-          <Image Width="64" Height="64" 
-            asyncImageLoader:ImageLoader.Source="https://icons.veryicon.com/png/Application/iOS7%20Style%20Metro%20UI/MetroUI%20Folder%20OS%20Security%20Denied.png" 
-             /> <!-- pull  from web asyncronously -->
-        </Button>
-
-      
     </Grid>
 
   </Grid>
