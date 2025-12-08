@@ -8,7 +8,7 @@ namespace managementProj;
 
 public partial class MainWindow : Window
 {
-  private UserControl[] Panels = [new Panel1(), new Panel2(), new Panel3(), new Panel4(), new Panel5()];
+  private UserControl[] Panels = [new simplePanel("kontinent", "Kontinentbezeichnung"), new Panel2(), new simplePanel("tierart", "TierartenBezeichnung"), new Panel4(), new Panel5()];
 
     public MainWindow()
     {
@@ -18,13 +18,6 @@ public partial class MainWindow : Window
         new DatabaseManager();
         
         Con.Content = Panels [0];
-       
-        var values = new ArrayList
-        {
-            new string[] { "kontinentbezeichnung", "John" },
-        }; 
-
-        new DatabaseManager().insert("kontinent", values);
     }
 
 

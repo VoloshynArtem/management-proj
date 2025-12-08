@@ -125,34 +125,4 @@ public partial class DatabaseManager{
 
   }
 
-// • Kontinent: kID (PK), Kbezeichnung
-// • Gehege: gID (PK), GBezeichnung, kontinentID (FK)
-// • Tierart: tierartID (PK), TABezeichnung
-// • Tiere: tierID (PK), Name, Gewicht, Geburtsdatum, TierartID (FK), GehegeID (FK)
-//
-//
-//
-  public ArrayList getKontinente(){
-    using var cmd = new NpgsqlCommand("SELECT * FROM Kontinent", conn);
-    using var reader = cmd.ExecuteReader();
-
-    ArrayList outerAL = new ArrayList();
-    ArrayList fieldArrayList;
-    while (reader.Read())
-    {
-        fieldArrayList = new ArrayList();
-
-        for (int i = 1; i < reader.FieldCount; i++)
-        {
-            fieldArrayList.Add(reader.GetValue(i));
-        }
-
-        outerAL.Add(fieldArrayList);
-    }
-
-    return outerAL;
-    
-
-
-  }
 }

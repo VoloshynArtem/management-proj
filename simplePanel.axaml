@@ -1,14 +1,10 @@
 <UserControl xmlns="https://github.com/avaloniaui" 
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             x:Class="managementProj.Panel1">
+             x:Class="managementProj.simplePanel">
   <StackPanel>
-    <!-- infos -->
-    <!-- buttons -->
-    <!-- list selection -->
-
     <StackPanel Margin="20,0,0,50">
-      <TextBlock Margin="0 5" >Kontinentbezeichnung:</TextBlock>
-      <TextBox x:Name="Bez" AcceptsReturn="True" TextWrapping="Wrap"/>
+      <TextBlock Margin="0 5" x:Name="Heading" ></TextBlock>
+      <TextBox x:Name="Bez" Text="" AcceptsReturn="True" TextWrapping="Wrap"/>
     </StackPanel>
       
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -17,8 +13,6 @@
       </StackPanel>
 
     <ListBox x:Name="List" SelectionChanged="listSelectionChanged"/>
-
-    <!-- <StackPanel x:Name="List"/> -->
 
   </StackPanel>
 </UserControl>

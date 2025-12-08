@@ -5,11 +5,17 @@ using Avalonia.Interactivity;
 
 namespace managementProj;
 
-public partial class Panel1 : UserControl{
-  public Panel1(){
+public partial class simplePanel : UserControl{
+  private string tableName;
+  private string collName;
+  
+  public simplePanel(string tableName, string collName){
+    this.tableName = tableName;
+    this.collName = collName;
     InitializeComponent();
+    Heading.Text=collName + ":";
     populateList();
-
+    
   }
   
   public void ClickHandler(object sender, RoutedEventArgs args)
@@ -17,17 +23,18 @@ public partial class Panel1 : UserControl{
       Button clickedButton = sender as Button;
       
       if (clickedButton.Content == "Update"){
-        new DatabaseManager().update("Kontinent", int.Parse(Bez.Tag.ToString()),  new ArrayList{
-            new string[] { "kontinentbezeichnung", Bez.Text}
+        new DatabaseManager().update(tableName, int.Parse(Bez.Tag.ToString()),  new ArrayList{
+            new string[] { collName, Bez.Text}
           } 
         );
 
       } else if(clickedButton.Content == "Hinzufügen"){
-        new DatabaseManager().insert("kontinent", new ArrayList{new String[]{"kontinentbezeichnung",Bez.Text}});
+        if(Bez.Text.Length > 0)
+          new DatabaseManager().insert(tableName, new ArrayList{new String[]{collName,Bez.Text}});
         Bez.Text = "";
 
       } else if(clickedButton.Content == "Delete"){
-        new DatabaseManager().delete("kontinent", int.Parse(Bez.Tag.ToString()));
+        new DatabaseManager().delete(tableName, int.Parse(Bez.Tag.ToString()));
 
 
       }
@@ -55,16 +62,16 @@ public partial class Panel1 : UserControl{
 
 
   private void populateBoxes(int id){
-   Bez.Text = new DatabaseManager().selectAll("Kontinent", id)[1];
+   Bez.Text = new DatabaseManager().selectAll(tableName, id)[1];
   }
 
 
   private void populateList()
   {
-    var items = new DatabaseManager().selectAll("Kontinent");
+    var items = new DatabaseManager().selectAll(tableName);
     List.Items.Clear();
 
-    foreach (ArrayList e in new DatabaseManager().selectAll("Kontinent"))
+    foreach (ArrayList e in new DatabaseManager().selectAll(tableName))
     {
         var listBoxItem = new ListBoxItem()
         {

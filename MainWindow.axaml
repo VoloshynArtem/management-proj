@@ -29,7 +29,7 @@
         <Button Tag="1" Content="Gehege" Grid.Column="1" Click="ClickHandler"/>
         <Button Tag="2" Content="Tierarten" Grid.Column="2" Click="ClickHandler"/>
         <Button Tag="3" Content="Tiere" Grid.Column="3" Click="ClickHandler"/>
-        <Button Tag="5" Content="Übersicht" Grid.Column="4" Click="ClickHandler"/>
+        <Button Tag="4" Content="Übersicht" Grid.Column="4" Click="ClickHandler"/>
 
     </Grid>
 
