@@ -14,7 +14,6 @@ public partial class simplePanel : UserControl{
 
   public simplePanel(string tableName){
     this.tableName = tableName;
-    this.collName = collName;
     InitializeComponent();
    
     foreach(ArrayList box in new DatabaseManager().getTableFields(tableName)){
@@ -30,18 +29,23 @@ public partial class simplePanel : UserControl{
 
 
 
-  public void ClickHandler(object sender, RoutedEventArgs args)
-    {
+  public void ClickHandler(object sender, RoutedEventArgs args){
       Button clickedButton = sender as Button;
+      try{
+        
+        if (clickedButton.Content == "Update"){
+          handleUpdate();
+        } 
+        else if(clickedButton.Content == "Hinzufügen"){
+          handleADD();
+        }
+        else if(clickedButton.Content == "Delete"){
+            new DatabaseManager().delete(tableName, selectedIndex);
+        }
+      }catch(DeleteReferenceException ex){
+        //TODO add notification for error
+        Console.WriteLine($"Delete error for {ex.table}.id = {ex.id}"); 
       
-      if (clickedButton.Content == "Update"){
-        handleUpdate();
-      } 
-      else if(clickedButton.Content == "Hinzufügen"){
-        handleADD();
-      }
-      else if(clickedButton.Content == "Delete"){
-        new DatabaseManager().delete(tableName, selectedIndex);
       }
       populateList();
     }
@@ -52,6 +56,7 @@ public partial class simplePanel : UserControl{
         {
           updateAL.Add(new String []{i.getName(), i.getValue()});
           Console.WriteLine(i.getName() + "|" + i.getValue());
+          i.clear();
         }
         new DatabaseManager().update(tableName, selectedIndex, updateAL);
 
@@ -72,8 +77,7 @@ public partial class simplePanel : UserControl{
 
 
   }
-  private void listSelectionChanged(object sender, SelectionChangedEventArgs e)
-    { 
+  private void listSelectionChanged(object sender, SelectionChangedEventArgs e){ 
      if (List.SelectedItem == null){
       DelButton.IsEnabled = false;
       ContectDepButton.Content = "Hinzufügen";

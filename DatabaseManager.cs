@@ -49,8 +49,13 @@ public partial class DatabaseManager{
     using var cmd = new NpgsqlCommand { Connection = conn };
     cmd.CommandText = $"DELETE FROM {table} WHERE id  = {id};";
 
-    cmd.ExecuteNonQuery();
-      
+    try{
+      cmd.ExecuteNonQuery();
+    }catch(PostgresException ex){
+      if (ex.SqlState == "23503"){
+        throw new DeleteReferenceException{table = table, id = id };
+      }
+    }
 
     }
     
@@ -72,10 +77,9 @@ public partial class DatabaseManager{
     cmd.CommandText += ");";
     
     for(int i = 0; i < names.Length; i++){
-      // int.TryParse(str, out v)? v : valuearray[i]
-      int value; //TODO do this with date also
-      cmd.Parameters.AddWithValue($"@{names[i]}", int.TryParse(valuearray[i], out value) ? value : valuearray[i]);
-      // cmd.Parameters.AddWithValue($"@{names[i]}",valuearray[i]);
+      int value;
+      DateTime dateValue;
+      cmd.Parameters.AddWithValue($"@{names[i]}", int.TryParse(valuearray[i], out value) ? value : DateTime.TryParse(valuearray[i], out dateValue) ? dateValue: valuearray[i]);
 
 
   }
@@ -102,9 +106,9 @@ public partial class DatabaseManager{
     cmd.CommandText += ";";
     
     for(int i = 0; i < names.Length; i++){
-      // cmd.Parameters.AddWithValue($"@{names[i]}",valuearray[i]);
-      int value; //TODO do this with date also
-      cmd.Parameters.AddWithValue($"@{names[i]}", int.TryParse(valuearray[i], out value) ? value : valuearray[i]);
+      int value;
+      DateTime dateValue;
+      cmd.Parameters.AddWithValue($"@{names[i]}", int.TryParse(valuearray[i], out value) ? value : DateTime.TryParse(valuearray[i], out dateValue) ? dateValue: valuearray[i]);
 
     }
     cmd.ExecuteNonQuery();

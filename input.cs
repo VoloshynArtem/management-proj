@@ -41,7 +41,6 @@ public class Input : StackPanel{
   }
   public Input getInput(){
     return this; 
-
   }
 
   public void setValue(string s){
@@ -54,20 +53,23 @@ public class Input : StackPanel{
           cb.SelectedItem = v;
         }
       }
+    }else if(this.Children[1] is DatePicker dp){
+      dp.SelectedDate = DateTime.Parse(s);
+
+
     } 
   }
 
 //check values return if valid or throw numberformat exc 
   public string getValue(){
-    if (this.Children[1] is TextBox textBox)
-    {
+    if (this.Children[1] is TextBox textBox){
       return (textBox.Text);
-    }else if (this.Children[1] is ComboBox cb){
-      
+
+    }else if (this.Children[1] is ComboBox cb){ 
       return (cb.SelectedItem as ListBoxItem)?.Tag.ToString();
+
     }else if(this.Children[1] is DatePicker dp){
       return dp.SelectedDate.ToString();
-
 
     }
     return "";
@@ -82,6 +84,13 @@ public class Input : StackPanel{
     foreach(var child in this.Children){
       if(child is TextBox textBox){
         textBox.Text = "";
+
+      }else if(child is ComboBox cb){
+        cb.Clear();
+
+
+      }else if(child is DatePicker dp){
+        dp.Clear();
 
       }
 
