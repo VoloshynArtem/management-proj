@@ -115,9 +115,8 @@ public partial class DatabaseManager{
                       Gewicht REAL,
                       Geburtsdatum DATE,
                       TierartID INT,
-                      TierartenID INT,
                       GehegeID INT,
-                      FOREIGN KEY (TierartenID) REFERENCES Tierart(id),
+                      FOREIGN KEY (TierartID) REFERENCES Tierart(id),
                       FOREIGN KEY (GehegeID) REFERENCES Gehege(id));";
 
 

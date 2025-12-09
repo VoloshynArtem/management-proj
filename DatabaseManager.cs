@@ -72,7 +72,11 @@ public partial class DatabaseManager{
     cmd.CommandText += ");";
     
     for(int i = 0; i < names.Length; i++){
-      cmd.Parameters.AddWithValue($"@{names[i]}",valuearray[i]);
+      // int.TryParse(str, out v)? v : valuearray[i]
+      int value; //TODO do this with date also
+      cmd.Parameters.AddWithValue($"@{names[i]}", int.TryParse(valuearray[i], out value) ? value : valuearray[i]);
+      // cmd.Parameters.AddWithValue($"@{names[i]}",valuearray[i]);
+
 
   }
   cmd.ExecuteNonQuery();
@@ -84,17 +88,23 @@ public partial class DatabaseManager{
     var valuearray = getColValue(values);
 
     using var cmd = new NpgsqlCommand { Connection = conn };
-    cmd.CommandText = $"UPDATE {table}  SET ";
-    
-    foreach(string s in names){
-      cmd.CommandText += s + " = @" + s;
-    }
-    cmd.CommandText += $" WHERE id={id}"; 
+    // cmd.CommandText = $"UPDATE {table}  SET ";
+    cmd.CommandText = $"UPDATE {table} SET ";
 
+    foreach(string s in names){
+      // cmd.CommandText += s + " = @" + s;
+      cmd.CommandText +=  s + " = @" + s + ",";
+
+    }
+    cmd.CommandText = cmd.CommandText.Remove(cmd.CommandText.Length - 1);
+
+    cmd.CommandText += $" WHERE id={id}"; 
     cmd.CommandText += ";";
     
     for(int i = 0; i < names.Length; i++){
-      cmd.Parameters.AddWithValue($"@{names[i]}",valuearray[i]);
+      // cmd.Parameters.AddWithValue($"@{names[i]}",valuearray[i]);
+      int value; //TODO do this with date also
+      cmd.Parameters.AddWithValue($"@{names[i]}", int.TryParse(valuearray[i], out value) ? value : valuearray[i]);
 
     }
     cmd.ExecuteNonQuery();
@@ -132,6 +142,61 @@ public partial class DatabaseManager{
     return tempString;
   }
 
+  public ArrayList getTableFields(string table){
 
+  
+    using var cmd = new NpgsqlCommand { Connection = conn };
+//TODO fix this
+    cmd.CommandText = $@"SELECT 
+          att.attname                 AS column_name,
+          
+          pg_catalog.format_type(att.atttypid, att.atttypmod) AS data_type,
+          
+          rcls.relname                AS referenced_table,
+          ratt.attname                AS referenced_column
+
+      FROM pg_catalog.pg_attribute att
+      JOIN pg_catalog.pg_class cls     ON cls.oid = att.attrelid
+      JOIN pg_catalog.pg_namespace ns  ON ns.oid = cls.relnamespace
+
+      LEFT JOIN pg_catalog.pg_constraint con 
+            ON con.conrelid = cls.oid 
+            AND att.attnum = ANY(con.conkey) 
+            AND con.contype = 'f'
+
+      LEFT JOIN pg_catalog.pg_class rcls 
+            ON rcls.oid = con.confrelid
+
+      LEFT JOIN pg_catalog.pg_attribute ratt
+            ON ratt.attrelid = con.confrelid
+            AND ratt.attnum = con.confkey[1]
+      WHERE att.attnum > 0 
+        AND NOT att.attisdropped
+        AND ns.nspname NOT IN ('pg_catalog', 'information_schema')
+        AND cls.relname = '{table}'
+      OFFSET 1
+        ;";
+
+      using var reader = cmd.ExecuteReader();
+
+      ArrayList outerAL = new ArrayList();
+      ArrayList fieldArrayList;
+      while (reader.Read()){
+          fieldArrayList = new ArrayList();
+
+          for (int i = 0; i < reader.FieldCount; i++){
+              fieldArrayList.Add(reader.GetValue(i));
+          }
+
+          outerAL.Add(fieldArrayList);
+      }
+
+      return outerAL;
+    
+
+
+
+
+}
 
 }

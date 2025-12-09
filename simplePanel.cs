@@ -11,40 +11,24 @@ public partial class simplePanel : UserControl{
   private string collName;
   private int selectedIndex;
 
-  public simplePanel (string tableName, string[] inputs):this(tableName, inputs, new string[,]{}){
-  }
 
-  public simplePanel(string tableName, string[] inputs, string[,] references){
+  public simplePanel(string tableName){
     this.tableName = tableName;
     this.collName = collName;
     InitializeComponent();
-    
-    foreach(string s in inputs ){
-      options.Children.Add(new TextBlock(){Text = s});
-      options.Children.Add(new TextBox(){
-          Text = "", 
-          Name = s
-      });
+   
+    foreach(ArrayList box in new DatabaseManager().getTableFields(tableName)){
+
+      options.Children.Add(new Input(box).getInput());
     }
+
+
     populateList();
     
   }
   
 
 
-  public void initCombobox(string [,] references){
-
-    for (int i = 0; i<references.Length && references.Length >0; i+=2){
-       options.Children.Add(new TextBox(){
-           Text=references[0,i]
-        }); 
-
-       foreach (ArrayList e in new DatabaseManager().selectAll(references[0,i])){
-        Console.WriteLine(e[1]);
-
-       }    
-    }
-  }
 
   public void ClickHandler(object sender, RoutedEventArgs args)
     {
@@ -64,23 +48,27 @@ public partial class simplePanel : UserControl{
 
   private void handleUpdate(){
         ArrayList updateAL = new ArrayList();
-        foreach (var textBox in options.Children.OfType<TextBox>())
+        foreach (Input i in options.Children.OfType<Input>())
         {
-          updateAL.Add(new string[]{textBox.Name, textBox.Text});
+          updateAL.Add(new String []{i.getName(), i.getValue()});
+          Console.WriteLine(i.getName() + "|" + i.getValue());
         }
         new DatabaseManager().update(tableName, selectedIndex, updateAL);
+
   }
 
 
   private void handleADD(){
     ArrayList insertAL = new ArrayList();
-    foreach (var textBox in options.Children.OfType<TextBox>())
+
+    foreach (Input i in options.Children.OfType<Input>())
     {
-      if(textBox.Text.Length <1) return;
-      insertAL.Add(new string[]{textBox.Name, textBox.Text});
+      insertAL.Add(new String []{i.getName(), i.getValue()});
+      i.clear(); //TODO do this as an event after inserting into db
     }
     new DatabaseManager().insert(tableName, insertAL);
 
+    
 
 
   }
@@ -106,8 +94,7 @@ public partial class simplePanel : UserControl{
   private void populateBoxes(int id){
     List<string> result = new DatabaseManager().selectAll(tableName, id);
     for(int i = 0; i < result.Count-1; i++){
-      Console.WriteLine(result[+1]);
-      options.Children.OfType<TextBox>().ToList()[i].Text = result[i+1];
+      options.Children.OfType<Input>().ToList()[i].setValue(result[i+1]);
     }
   }
 
