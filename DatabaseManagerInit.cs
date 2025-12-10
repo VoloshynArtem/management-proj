@@ -112,7 +112,7 @@ public partial class DatabaseManager{
                       $@"CREATE TABLE IF NOT EXISTS Tiere(
                       id SERIAL PRIMARY KEY,
                       Name VARCHAR(255),
-                      Gewicht REAL,
+                      Gewicht FLOAT,
                       Geburtsdatum DATE,
                       TierartID INT,
                       GehegeID INT,

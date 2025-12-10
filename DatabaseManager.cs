@@ -76,7 +76,7 @@ public partial class DatabaseManager{
     for(int i = 0; i < names.Length; i++){
       int value;
       DateTime dateValue;
-      cmd.Parameters.AddWithValue($"@{names[i]}", int.TryParse(valuearray[i], out value) ? value : DateTime.TryParse(valuearray[i], out dateValue) ? dateValue: valuearray[i]);
+      cmd.Parameters.AddWithValue($"@{names[i]}", parseString(valuearray[i]));
 
 
   }
@@ -101,15 +101,24 @@ public partial class DatabaseManager{
     cmd.CommandText += ";";
     
     for(int i = 0; i < names.Length; i++){
-      int value;
-      DateTime dateValue;
-      cmd.Parameters.AddWithValue($"@{names[i]}", int.TryParse(valuearray[i], out value) ? value : DateTime.TryParse(valuearray[i], out dateValue) ? dateValue: valuearray[i]);
+      cmd.Parameters.AddWithValue($"@{names[i]}", parseString(valuearray[i]));
 
     }
     cmd.ExecuteNonQuery();
 
   }
   
+  public object parseString(string s){
+    if (int.TryParse(s, out var intValue)){
+        return intValue;
+    }else if (float.TryParse(s, out var floatValue)){
+        return floatValue;
+    }else if (DateTime.TryParse(s, out var dateValue)){
+        return dateValue;
+    }
+    return s;
+
+  }
 
   public string[] getColName(ArrayList list){
     string[] tempString = new string[list.Count];    

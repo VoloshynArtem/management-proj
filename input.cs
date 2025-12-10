@@ -1,6 +1,7 @@
 using System.Collections;
 using Avalonia.Controls;
 using System;
+using Avalonia.Media;
 
 namespace managementProj;
 
@@ -106,6 +107,12 @@ public class Input : StackPanel{
   public Input attachHandler(simplePanel parentObj){
     parentObj.ClearEvent += HandleClear;
     parentObj.RefreshEvent += HandleRefresh;
+    
+    if (this.Children[1] is TextBox tb){
+      // tb.KeyDown += HandleTextChanged;
+      tb.TextChanged += HandleTextChanged;
+
+    }
     return this;
   }
 
@@ -113,6 +120,26 @@ public class Input : StackPanel{
     clear();
 
   }
+  
+  public void HandleTextChanged(object sender, EventArgs e){
+    TextBox tb = sender as TextBox;
+    Console.WriteLine(expectedDatatyp);
+    if (expectedDatatyp == "double precision"){
+      Console.WriteLine(tb.Text.Length);
+      if(float.TryParse(tb.Text, out var v) || tb.Text.Length == 0){
+        //TODO also handle Light theme
+        tb.BorderBrush = Brushes.White;
+        tb.Foreground = Brushes.White;
+
+      }else{
+        tb.BorderBrush = Brushes.Red;
+        tb.Foreground = Brushes.Red;
+
+      }
+    }
+
+  }
+
 
   public void HandleRefresh(object sender, EventArgs e){
     if (this.Children[1] is ComboBox){
