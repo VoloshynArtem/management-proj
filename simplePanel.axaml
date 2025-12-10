@@ -1,17 +1,18 @@
 <UserControl xmlns="https://github.com/avaloniaui" 
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              x:Class="managementProj.simplePanel">
-  <StackPanel>
-    <StackPanel x:Name="options" Margin="20,0,0,50">
-    </StackPanel>
+  <Grid RowDefinitions="Auto,Auto,Auto,*">
+    <StackPanel Grid.Row="0" x:Name="options" Margin="20,0,0,50"/>
       
-      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-        <Button x:Name="ContectDepButton" Content="Hinzufügen" Click="ClickHandler"/>
-        <Button x:Name="DelButton" Content="Delete" Click="ClickHandler" IsEnabled="False"/>
-      </StackPanel>
-    <TextBox x:Name="Search" TextChanged="HandleSearchTextChanged" Text="" />
-    <ListBox x:Name="List" SelectionChanged="listSelectionChanged"/>
+    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center">
+      <Button x:Name="ContectDepButton" Content="Hinzufügen" Click="ClickHandler"/>
+      <Button x:Name="DelButton" Content="Delete" Click="ClickHandler" IsEnabled="False"/>
+    </StackPanel>
+    <TextBox Grid.Row="2" x:Name="Search" TextChanged="HandleSearchTextChanged" Text="" />
+    <ScrollViewer Grid.Row="3" VerticalScrollBarVisibility="Auto" >
+      <ListBox x:Name="List" SelectionChanged="listSelectionChanged"/>
+    </ScrollViewer>
 
-  </StackPanel>
+  </Grid>
 </UserControl>
 
