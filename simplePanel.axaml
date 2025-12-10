@@ -9,7 +9,7 @@
         <Button x:Name="ContectDepButton" Content="Hinzufügen" Click="ClickHandler"/>
         <Button x:Name="DelButton" Content="Delete" Click="ClickHandler" IsEnabled="False"/>
       </StackPanel>
-
+    <TextBox x:Name="Search" TextChanged="HandleSearchTextChanged" Text="" />
     <ListBox x:Name="List" SelectionChanged="listSelectionChanged"/>
 
   </StackPanel>

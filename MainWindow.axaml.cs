@@ -6,27 +6,30 @@ using Avalonia.Layout;
 using System.Collections;
 namespace managementProj;
 
-public partial class MainWindow : Window
-{
-  // private UserControl[] Panels = [new simplePanel("kontinent", new String[]{"Kontinentbezeichnung"}), new simplePanel("gehege", new String[]{"gehegeBezeichnung"}, new String[,]{{"kontinent", ""}}), new simplePanel("tierart", new St"TierartenBezeichnung"), new Panel4(), new Panel5()];
-  private UserControl[] Panels = [new simplePanel("kontinent"), new simplePanel("gehege"), new simplePanel("tierart"), new simplePanel("tiere")];
 
-    public MainWindow()
-    {
-        InitializeComponent();
+public partial class MainWindow : Window{
+  public delegate void EventHandler(object sender, EventArgs e);
+  public event EventHandler SelectionEvent;
 
-        EnvReader.Load(".env");
-        new DatabaseManager();
-        
-        Con.Content = Panels [0];
-    }
+  private UserControl[] Panels;
+
+  public MainWindow(){
+    Panels = [new simplePanel("kontinent", this), new simplePanel("gehege", this), new simplePanel("tierart", this), new simplePanel("tiere", this)];
 
 
+      InitializeComponent();
 
-    public void ClickHandler(object sender, RoutedEventArgs args)
-    {
+      EnvReader.Load(".env");
+      new DatabaseManager();
+      
+      Con.Content = Panels [0];
+  }
+
+
+
+    public void ClickHandler(object sender, RoutedEventArgs args){
       Button clickedButton = sender as Button;
-      Console.WriteLine(int.Parse(clickedButton.Tag.ToString()));
-      Con.Content = Panels[int.Parse(clickedButton.Tag.ToString())]; 
+      Con.Content = Panels[int.Parse(clickedButton.Tag.ToString())];
+      SelectionEvent.Invoke(clickedButton, EventArgs.Empty);
     }
 }

@@ -59,9 +59,6 @@ public partial class DatabaseManager{
 
     }
     
-
-
- 
   public void insert(string table, ArrayList values){
     var names = getColName(values);
     var valuearray = getColValue(values);
@@ -92,11 +89,9 @@ public partial class DatabaseManager{
     var valuearray = getColValue(values);
 
     using var cmd = new NpgsqlCommand { Connection = conn };
-    // cmd.CommandText = $"UPDATE {table}  SET ";
     cmd.CommandText = $"UPDATE {table} SET ";
 
     foreach(string s in names){
-      // cmd.CommandText += s + " = @" + s;
       cmd.CommandText +=  s + " = @" + s + ",";
 
     }

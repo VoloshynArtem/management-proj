@@ -6,6 +6,7 @@ namespace managementProj;
 
 public class Input : StackPanel{
 
+  private ComboBox cb;
   private string expectedDatatyp;
 
   public Input(ArrayList fields){
@@ -22,18 +23,10 @@ public class Input : StackPanel{
         this.Children.Add(new TextBox(){Text = ""});
       }
     }else{
-      // comboBox
       this.Children.Add(new TextBlock(){Text = fields[2].ToString()});
 
-      var cb = new ComboBox();
-      foreach (ArrayList e in new DatabaseManager().selectAll(fields[2].ToString())){
-        var listBoxItem = new ListBoxItem(){
-            Content = e[1],
-            Tag = e[0]
-        };
-
-        cb.Items.Add(listBoxItem);
-      }
+      cb = new ComboBox(){Tag = fields[2].ToString()};
+      populateComboBox();
       this.Children.Add(cb);
 
     }
@@ -41,6 +34,19 @@ public class Input : StackPanel{
   }
   public Input getInput(){
     return this; 
+  }
+
+  private void populateComboBox(){
+    cb.Items.Clear();
+    foreach (ArrayList e in new DatabaseManager().selectAll(cb.Tag.ToString().ToString())){
+      var listBoxItem = new ListBoxItem(){
+        Content = e[1],
+        Tag = e[0]
+      };
+
+      cb.Items.Add(listBoxItem);
+    }
+    
   }
 
   public void setValue(string s){
@@ -79,7 +85,7 @@ public class Input : StackPanel{
     return this.Name;
   }
 
-  public void clear(){
+  private void clear(){
     this.Tag = null;
     foreach(var child in this.Children){
       if(child is TextBox textBox){
@@ -97,5 +103,24 @@ public class Input : StackPanel{
     }
 
   }
+  public Input attachHandler(simplePanel parentObj){
+    parentObj.ClearEvent += HandleClear;
+    parentObj.RefreshEvent += HandleRefresh;
+    return this;
+  }
+
+  public void HandleClear(object sender, EventArgs e){
+    clear();
+
+  }
+
+  public void HandleRefresh(object sender, EventArgs e){
+    if (this.Children[1] is ComboBox){
+      //TODO retain selected item 
+      populateComboBox();
+
+    }
+  }
+
 
 }
