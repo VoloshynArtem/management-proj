@@ -16,7 +16,7 @@ public partial class MainWindow : Window{
   private UserControl[] Panels;
 
   public MainWindow(){
-    Panels = [new simplePanel("kontinent", this), new simplePanel("gehege", this), new simplePanel("tierart", this), new simplePanel("tiere", this)];
+    Panels = [new simplePanel("kontinent", this), new simplePanel("gehege", this), new simplePanel("tierart", this), new simplePanel("tiere", this), new GridPanel(this)];
 
 
       InitializeComponent();

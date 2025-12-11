@@ -8,6 +8,36 @@ namespace managementProj;
 
 
 public partial class DatabaseManager{
+  public List<GridRow> selectGridView(){
+    using var cmd = new NpgsqlCommand($@"SELECT 
+    t.Name,
+    t.Gewicht,
+    ta.TierartenBezeichnung,
+    g.Gehegebezeichnung,
+    k.Kontinentbezeichnung
+FROM Tiere t
+LEFT JOIN Tierart ta ON t.TierartID = ta.id
+LEFT JOIN Gehege g ON t.GehegeID = g.id
+LEFT JOIN Kontinent k ON g.kontinentID = k.id
+ORDER BY t.Name;", conn); //TODO make this a VIEW
+    using var reader = cmd.ExecuteReader();
+    List<GridRow> rows = new List<GridRow>();
+
+    while (reader.Read()){
+ 
+    rows.Add (new GridRow{
+        Tiername = reader.GetString(0), 
+        Gewicht = reader.GetDouble(1), 
+        Tierart = reader.GetString(2), 
+        Gehege = reader.GetString(3), 
+        Kontinent = reader.GetString(4) 
+      }
+    );
+   }
+    return rows;
+ 
+
+  }
 
   public ArrayList selectAll(string table){
     using var cmd = new NpgsqlCommand($"SELECT * FROM {table}", conn);
@@ -80,8 +110,11 @@ public partial class DatabaseManager{
 
 
   }
-  cmd.ExecuteNonQuery();
-
+    try{
+      cmd.ExecuteNonQuery();
+    }catch (InvalidOperationException ex){
+      throw new ReferenceNotSelectedException{table = table}; 
+    }
   }
 
   public void update(string table, int id, ArrayList values){

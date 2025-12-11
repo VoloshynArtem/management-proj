@@ -25,10 +25,14 @@ public partial class simplePanel : UserControl{
       }
       ClearEvent.Invoke(this, EventArgs.Empty);
     }catch(DeleteReferenceException ex){
-      NotificationsWrapper.sendNotification("management", $"Delete reference on {ex.table} for id {ex.id}");
+      NotificationsWrapper.sendNotification($"Delete reference on {ex.table} for id {ex.id}");
     
     }catch(FormatException ex){
-      NotificationsWrapper.sendNotification("management", $"FormatException");
+      NotificationsWrapper.sendNotification( "FormatException");
+    }catch(EmptyInputException ex){
+      NotificationsWrapper.sendNotification("Empty input");
+    }catch(ReferenceNotSelectedException ex){
+      NotificationsWrapper.sendNotification($"Reference not selected for table {ex.table}");
     }
     refreshItems();
     populateList();

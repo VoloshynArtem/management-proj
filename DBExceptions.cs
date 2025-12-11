@@ -7,3 +7,9 @@ public class DBException : Exception {
 }
 
 public class DeleteReferenceException : DBException;
+
+public class ReferenceNotSelectedException : DBException;
+
+public class EmptyInputException : Exception;
+
+

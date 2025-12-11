@@ -3,9 +3,9 @@ using System;
 namespace managementProj;
 public static class NotificationsWrapper{
 
-  public static void sendNotification(string title, string text){
+  public static void sendNotification(string text){
     try{
-      Notifications.ShowNotification(title, text);
+      Notifications.ShowNotification("management", text);
     }catch(Exception ex){
 
     }

@@ -68,9 +68,9 @@ public class Input : StackPanel{
 
   public string getValue(){
     if (this.Children[1] is TextBox textBox){
-      if(!float.TryParse(textBox.Text, out var v) && expectedDatatyp == "double precision"){
-          throw new FormatException();
-      }
+      if (textBox.Text.Length == 0) throw new EmptyInputException();
+      if(!double.TryParse(textBox.Text, out var v) && expectedDatatyp == "double precision") throw new FormatException();
+
       return (textBox.Text);
 
     }else if (this.Children[1] is ComboBox cb){ 
