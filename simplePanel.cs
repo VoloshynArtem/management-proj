@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using System.Linq;
+using FuzzySharp;
 namespace managementProj;
 
 public partial class simplePanel : UserControl{
@@ -61,7 +62,7 @@ public partial class simplePanel : UserControl{
     List.Items.Clear();
 
     foreach (ArrayList e in new DatabaseManager().selectAll(tableName)){
-      if (e[1].ToString().Contains(filter) || filter.Length == 0){
+      if (Fuzz.PartialRatio(e[1].ToString().ToLower(), filter.ToLower()) >=50 || filter.Length == 0){
         var listBoxItem = new ListBoxItem(){
             Content = e[1],
             Tag = e[0]

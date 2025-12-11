@@ -70,6 +70,9 @@ public class Input : StackPanel{
 //check values return if valid or throw numberformat exc 
   public string getValue(){
     if (this.Children[1] is TextBox textBox){
+      if(!float.TryParse(textBox.Text, out var v) && expectedDatatyp == "double precision"){
+          throw new FormatException();
+      }
       return (textBox.Text);
 
     }else if (this.Children[1] is ComboBox cb){ 

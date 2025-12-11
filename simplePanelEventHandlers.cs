@@ -27,9 +27,10 @@ public partial class simplePanel : UserControl{
       ClearEvent.Invoke(this, EventArgs.Empty);
 
     }catch(DeleteReferenceException ex){
-      //TODO add notification for error
       Console.WriteLine($"Delete error for {ex.table}.id = {ex.id}"); 
     
+    }catch(FormatException ex){
+      Console.WriteLine("Format except");
     }
     populateList();
   }
