@@ -11,7 +11,8 @@ public partial class simplePanel : UserControl{
   private string tableName;
   private string collName;
   private int selectedIndex;
-  
+  private ArrayList items;
+
   public simplePanel(string tableName, MainWindow parent){
     this.tableName = tableName;
     InitializeComponent();
@@ -21,6 +22,7 @@ public partial class simplePanel : UserControl{
 
       options.Children.Add(new Input(box).attachHandler(this).getInput());
     }
+    refreshItems();
     populateList();
   }
 
@@ -28,7 +30,6 @@ public partial class simplePanel : UserControl{
     ArrayList updateAL = new ArrayList();
     foreach (Input i in options.Children.OfType<Input>()){
       updateAL.Add(new String []{i.getName(), i.getValue()});
-      Console.WriteLine(i.getName() + "|" + i.getValue());
     }
     new DatabaseManager().update(tableName, selectedIndex, updateAL);
 
@@ -57,11 +58,15 @@ public partial class simplePanel : UserControl{
     populateList("");
   }
 
+  private void refreshItems(){
+    items = new DatabaseManager().selectAll(tableName);
+  }
+
+
   private void populateList(string filter){
-    var items = new DatabaseManager().selectAll(tableName);
     List.Items.Clear();
 
-    foreach (ArrayList e in new DatabaseManager().selectAll(tableName)){
+    foreach (ArrayList e in items){
       if (Fuzz.PartialRatio(e[1].ToString().ToLower(), filter.ToLower()) >=50 || filter.Length == 0){
         var listBoxItem = new ListBoxItem(){
             Content = e[1],

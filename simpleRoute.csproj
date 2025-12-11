@@ -1,5 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
+    <NoWarn>AVLN3001</NoWarn>
+    <WarningLevel>0</WarningLevel> <!-- ¯\_(ツ)_/¯ -->
     <OutputType>WinExe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
@@ -21,5 +23,6 @@
     <AvaloniaResource Include="assets\**\*" />
     <PackageReference Include="FuzzySharp" Version="2.0.2" />
     <PackageReference Include="Npgsql" Version="10.0.0" />
+    <PackageReference Include="OsNotifications" Version="1.1.3" />
   </ItemGroup>
 </Project>

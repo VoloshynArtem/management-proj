@@ -17,7 +17,6 @@ public class Input : StackPanel{
 
     if(fields[2] is DBNull){
       this.Children.Add(new TextBlock(){Text = fields[0].ToString()});
-      Console.WriteLine(fields[1]);
       if(fields[1].Equals("date")){
         this.Children.Add(new DatePicker());
       }else{
@@ -67,7 +66,6 @@ public class Input : StackPanel{
     } 
   }
 
-//check values return if valid or throw numberformat exc 
   public string getValue(){
     if (this.Children[1] is TextBox textBox){
       if(!float.TryParse(textBox.Text, out var v) && expectedDatatyp == "double precision"){
@@ -112,7 +110,6 @@ public class Input : StackPanel{
     parentObj.RefreshEvent += HandleRefresh;
     
     if (this.Children[1] is TextBox tb){
-      // tb.KeyDown += HandleTextChanged;
       tb.TextChanged += HandleTextChanged;
 
     }
@@ -121,22 +118,16 @@ public class Input : StackPanel{
 
   public void HandleClear(object sender, EventArgs e){
     clear();
-
   }
   
   public void HandleTextChanged(object sender, EventArgs e){
     TextBox tb = sender as TextBox;
-    Console.WriteLine(expectedDatatyp);
     if (expectedDatatyp == "double precision"){
-      Console.WriteLine(tb.Text.Length);
       if(float.TryParse(tb.Text, out var v) || tb.Text.Length == 0){
-        //TODO also handle Light theme
-        tb.BorderBrush = Brushes.White;
-        tb.Foreground = Brushes.White;
+        tb.BorderBrush = new TextBox().BorderBrush;
 
       }else{
         tb.BorderBrush = Brushes.Red;
-        tb.Foreground = Brushes.Red;
 
       }
     }

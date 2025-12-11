@@ -1,7 +1,6 @@
 using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-
 namespace managementProj;
 
 public partial class simplePanel : UserControl{
@@ -25,13 +24,13 @@ public partial class simplePanel : UserControl{
           new DatabaseManager().delete(tableName, selectedIndex);
       }
       ClearEvent.Invoke(this, EventArgs.Empty);
-
     }catch(DeleteReferenceException ex){
-      Console.WriteLine($"Delete error for {ex.table}.id = {ex.id}"); 
+      NotificationsWrapper.sendNotification("management", $"Delete reference on {ex.table} for id {ex.id}");
     
     }catch(FormatException ex){
-      Console.WriteLine("Format except");
+      NotificationsWrapper.sendNotification("management", $"FormatException");
     }
+    refreshItems();
     populateList();
   }
 
