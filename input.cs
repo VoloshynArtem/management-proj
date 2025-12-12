@@ -123,8 +123,9 @@ public class Input : StackPanel{
   public void HandleTextChanged(object sender, EventArgs e){
     TextBox tb = sender as TextBox;
     if (expectedDatatyp == "double precision"){
+      tb.Text = tb.Text.Replace(',', '.');
       if(float.TryParse(tb.Text, out var v) || tb.Text.Length == 0){
-        tb.BorderBrush = new TextBox().BorderBrush;
+        tb.BorderBrush = Brushes.White;
 
       }else{
         tb.BorderBrush = Brushes.Red;
